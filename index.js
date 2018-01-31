@@ -16,10 +16,10 @@ var express = require("express"),
  mongoose.connect(DB_URI || 'mongodb://localhost/dbtest', {useMongoClient:true});
  mongoose.connection.once('open', () => {
      console.log('mongoDB Connected');
-     // controller.getTwits((err, res) => {
-     //   if (err) console.log("error al guardar en base de datos", err)
-     //   console.log("saved: " + res.twit)
-     // })
+     controller.getTwits((err, res) => {
+       if (err) console.log("error al guardar en base de datos", err)
+       console.log("saved: " + res.twit)
+     })
  }).on('error', (error) => {
      console.log('CONNECTION ERROR:',error);
  });

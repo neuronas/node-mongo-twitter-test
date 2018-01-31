@@ -3,9 +3,13 @@
 al ejecutar el servidor recopila twits con el texto "javascript" y los almacena en base de datos,
 además expone un metodo GET "filter"
 
-ejemplo de búsqueda:
+ejemplo de búsqueda por hastag "nodejs":
 
 `/filter?hashtag=nodejs&limit=10&pageNumber=1`
+
+todos los resultados (maximo 100 por pagina):
+
+`/filter?limit=10&pageNumber=1`
 
 todos los parametros que acepta:
 
@@ -16,28 +20,28 @@ todos los parametros que acepta:
 
 >**Requiere:**
 >* node >= 7.10
->* [Docker](https://www.docker.com/community-edition) (Community Edition)
+>* [Docker](https://www.docker.com/community-edition) (para persistencia de datos con mongoDB)
 
 ### Api
 
 la api es un servidor NODE con Express que acepta metodos REST,
-el metodo de autenticación con la api de twitter es "user context" (no application context)
+se utilizaron las siguientes librerias:
 
-* [Mongo DB](http://mongodb.github.io/node-mongodb-native) (persistencia de datos)
+* [Mongo DB](http://mongodb.github.io/node-mongodb-native) (mongo para node)
 * [Mongoose](https://github.com/Automattic/mongoose) (ORM)
-* [twit](https://github.com/ttezel/twit) (conexion a la api de twitter)
+* [twit](https://github.com/ttezel/twit) (para consumir la api de twitter)
 
 
 
 **instalar dependencias**
 
-ejecutar desde el directorio raíz:
+desde el directorio raíz ejecutar:
 ```bash
 $ npm install --save
 ```
 
 ### Iniciar servidor MongoDB con Docker
-
+( omitir este paso si ya se tiene un servidor mongoDB y configurar el acceso al mismo en el siguiente paso )
 * [Docker / Mongo](https://hub.docker.com/_/mongo/)
 
 
@@ -58,11 +62,14 @@ docker run -it --link some-mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT
 ```
 
 
-### Iniciar servidor API
+### Configurar servidor API
 
 
 **configurar access tokens twitter**
-* [crear aplicacion twitter ](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens)
+
+el metodo de autenticación con la api de twitter es "user context" (no application context)
+
+primero, [crear aplicacion twitter ](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens),
 
 una vez creada la aplicación copiar el consumer key/secret y el token key/secret
 * [https://apps.twitter.com](https://apps.twitter.com/) (pestaña "Keys and Access Tokens")
@@ -85,6 +92,7 @@ DB_NAME=twitsdb
 
 **iniciar el servidor**
 
+desde el directorio raíz ejecutar:
 ```bash
 $ node index.js
 ```
